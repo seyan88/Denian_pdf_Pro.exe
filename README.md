@@ -8,11 +8,12 @@ Denian pdf Pro adalah aplikasi desktop kompresor PDF yang sangat cepat dan aman,
 - 🛑 **Force Stop (Batal):** Hentikan proses kompresi kapan saja; aplikasi otomatis akan membersihkan file sementara yang gagal atau setengah jadi.
 - 📁 **Drag & Drop:** Kemudahan memproses file dengan antarmuka pengguna yang sangat modern.
 
-**Instalasi:**
-1. Anda dapat membangun file instalasi sendiri menggunakan file `installer.iss` dengan Inno Setup.
-2. Jalankan `DenianPdfPro_Installer.exe` yang berada di folder `Output/`.
-3. Ikuti Setup Wizard hingga selesai.
-4. Buka aplikasi melalui Start Menu atau Desktop Shortcut.
+**Cara Penggunaan (Instalasi Sangat Mudah!):**
+1. Unduh file `DenianPdfPro_Installer.exe` dari halaman **[Releases](https://github.com/seyan88/Denian_pdf_Pro.exe/releases)**.
+2. **Klik 2 kali (Double-Click)** file `.exe` tersebut untuk menginstal.
+3. Setelah instalasi selesai, aplikasi sudah langsung siap digunakan! Anda bisa membukanya melalui *Start Menu* atau *Shortcut Desktop* Anda.
+
+*(Bagi pengembang: Anda juga dapat memodifikasi dan mem-build installer sendiri menggunakan file `installer.iss` dengan bantuan Inno Setup).*
 
 ---
 
@@ -25,10 +26,11 @@ Denian pdf Pro is a lightning-fast and secure PDF compressor desktop application
 - 🛑 **Force Stop (Cancel):** Safely stop the compression process at any time; the app automatically cleans up incomplete or corrupt temporary files.
 - 📁 **Drag & Drop:** Effortless file processing with a modern user interface.
 
-**Installation:**
-1. You can build your own setup installer using the provided `installer.iss` via Inno Setup.
-2. Run `DenianPdfPro_Installer.exe` located in the `Output/` folder.
-3. Follow the Setup Wizard to completion.
-4. Launch the application via Start Menu or Desktop Shortcut.
+**How to Use (Super Easy Installation!):**
+1. Download the `DenianPdfPro_Installer.exe` file from the **[Releases](https://github.com/seyan88/Denian_pdf_Pro.exe/releases)** page.
+2. **Double-click** the `.exe` file to install it.
+3. Once the installation is complete, the application is ready to use! You can launch it via the Start Menu or your Desktop Shortcut.
+
+*(For developers: You can also modify and build your own installer using the `installer.iss` file with Inno Setup).*
 
 Catatan: Aplikasi ini akan dikembangkan lebih lanjut jika tidak malas.
