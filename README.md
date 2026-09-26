@@ -1,36 +1,55 @@
-# Denian pdf Pro
+# Denian Media Pro (v2.0.0)
 
-Denian pdf Pro adalah aplikasi desktop kompresor PDF yang sangat cepat dan aman, dibangun menggunakan Python, CustomTkinter, dan TkinterDnD2. Aplikasi ini bertindak sebagai GUI wrapper untuk dua mesin kompresi terbaik di kelasnya: **QPDF** (untuk kompresi lossless/aman tanpa mengurangi kualitas) dan **Ghostscript** (untuk kompresi ekstrem hingga ukuran terkecil).
+**Denian Media Pro** (sebelumnya *Denian pdf Pro*) adalah aplikasi desktop kompresor media (PDF, Foto, dan Video) yang sangat cepat, aman, dan mudah digunakan. Dibangun menggunakan Python dan CustomTkinter, aplikasi ini kini mengusung desain **Neumorphism / Physical UI** yang modern, rapi, dan memanjakan mata.
 
-**Fitur Utama:**
-- 🌍 **Bilingual GUI:** Mendukung Bahasa Indonesia dan Bahasa Inggris secara real-time tanpa perlu restart.
-- 🚀 **Asynchronous Processing:** GUI tetap responsif penuh saat proses kompresi berjalan di latar belakang (background thread).
-- 🛑 **Force Stop (Batal):** Hentikan proses kompresi kapan saja; aplikasi otomatis akan membersihkan file sementara yang gagal atau setengah jadi.
-- 📁 **Drag & Drop:** Kemudahan memproses file dengan antarmuka pengguna yang sangat modern.
-
-**Cara Penggunaan (Instalasi Sangat Mudah!):**
-1. Unduh file `DenianPdfPro_Installer.exe` dari halaman **[Releases](https://github.com/seyan88/Denian_pdf_Pro.exe/releases)**.
-2. **Klik 2 kali (Double-Click)** file `.exe` tersebut untuk menginstal.
-3. Setelah instalasi selesai, aplikasi sudah langsung siap digunakan! Anda bisa membukanya melalui *Start Menu* atau *Shortcut Desktop* Anda.
-
-*(Bagi pengembang: Anda juga dapat memodifikasi dan mem-build installer sendiri menggunakan file `installer.iss` dengan bantuan Inno Setup).*
+Denian Media Pro bertindak sebagai *GUI wrapper* cerdas untuk *engine* kompresi terbaik di kelasnya:
+- **QPDF & Ghostscript** untuk PDF (Aman/Lossless & Ekstrem).
+- **FFmpeg** untuk Foto & Video (Berbagai level dan konversi format).
 
 ---
 
-🇬🇧 **English**
-Denian pdf Pro is a lightning-fast and secure PDF compressor desktop application, built using Python, CustomTkinter, and TkinterDnD2. It acts as a GUI wrapper for two best-in-class compression engines: **QPDF** (for lossless/safe compression without quality degradation) and **Ghostscript** (for extreme compression to the smallest size).
+## 🔥 Fitur Baru di v2.0 (Massive Update!)
 
-**Key Features:**
-- 🌍 **Bilingual GUI:** Supports English and Indonesian seamlessly in real-time without restarts.
-- 🚀 **Asynchronous Processing:** GUI remains fully responsive while compression runs in the background.
-- 🛑 **Force Stop (Cancel):** Safely stop the compression process at any time; the app automatically cleans up incomplete or corrupt temporary files.
-- 📁 **Drag & Drop:** Effortless file processing with a modern user interface.
+1. **Multi-Media Support (Tab Baru)**
+   Tidak lagi hanya PDF! Sekarang Anda bisa mengompres **Foto** (JPG, PNG, WEBP, dll) dan **Video** (MP4, MKV, WEBM) dengan sangat cepat melalui tab khusus.
 
-**How to Use (Super Easy Installation!):**
-1. Download the `DenianPdfPro_Installer.exe` file from the **[Releases](https://github.com/seyan88/Denian_pdf_Pro.exe/releases)** page.
-2. **Double-click** the `.exe` file to install it.
-3. Once the installation is complete, the application is ready to use! You can launch it via the Start Menu or your Desktop Shortcut.
+2. **Opsi Kompresi Lengkap & Konversi Format**
+   - **Foto & Video:** Pilih antara 3 level (Kualitas Tinggi, Seimbang, Ekstrem).
+   - Mendukung konversi format otomatis saat kompresi (misal: convert Foto ke `.webp` atau Video ke `.mp4`).
 
-*(For developers: You can also modify and build your own installer using the `installer.iss` file with Inno Setup).*
+3. **Smart Batch Processing & Skip Exists**
+   Kini Anda bisa memasukkan satu folder utuh! Aplikasi akan otomatis mendeteksi file yang sudah pernah dikompres di folder tujuan dan melewatinya (skip) secara pintar untuk menghemat waktu.
 
-Catatan: Aplikasi ini akan dikembangkan lebih lanjut jika tidak malas.
+4. **Skeuomorphic & Neumorphic UI Design**
+   Perombakan total antarmuka:
+   - Panel dan tombol dengan gaya fisik/timbul (Skeuomorphism).
+   - **Draggable Splitter**: Tarik garis pembatas antara daftar Input dan Output sesuai selera Anda!
+   - Progress bar *real-time* yang sangat akurat untuk pemrosesan video berdurasi panjang (FFmpeg parsing).
+
+5. **Bulletproof Engine (Anti-Crash)**
+   GUI tidak akan pernah "Not Responding" berkat sistem pemrosesan multithreading yang aman. Terdapat juga tombol **Force Stop** jika Anda ingin membatalkan kompresi massal seketika.
+
+---
+
+## 🚀 Cara Penggunaan (Instalasi Sangat Mudah!)
+
+1. Unduh file `Setup_DenianMediaPro.exe` dari halaman **[Releases](https://github.com/seyan88/Denian_pdf_Pro.exe/releases)**.
+2. **Klik 2 kali (Double-Click)** file `.exe` tersebut untuk menginstal.
+3. Setelah instalasi selesai, aplikasi sudah langsung siap digunakan! Buka melalui *Start Menu* atau *Shortcut Desktop* Anda.
+*(Semua tools seperti FFmpeg, QPDF, dan Ghostscript sudah tertanam otomatis di dalamnya, Anda tidak perlu repot instal apa-apa lagi!)*
+
+---
+
+## 🛠️ Untuk Developer (Build from Source)
+
+Jika Anda ingin mengompilasi ulang aplikasi ini menjadi `.exe` installer sendiri:
+1. Pastikan Anda sudah menginstal **PyInstaller** dan **Inno Setup (v6/v7)**.
+2. Jalankan skrip rilis otomatis yang sudah disediakan:
+   ```bash
+   python build_release.py
+   ```
+3. Skrip akan otomatis membungkus semua file Python, mengaitkan folder `assets/`, dan memanggil Inno Setup Compiler (`ISCC`) untuk melahirkan `Setup_DenianMediaPro.exe` di folder `Releases/`.
+
+---
+
+*Terima kasih telah menggunakan tools ini. Jika aplikasi ini membantu produktivitas Anda, Anda bisa mendukung kreator melalui tautan **Traktir Kopi** di dalam aplikasi.* ☕🐈‍⬛
