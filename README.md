@@ -1,6 +1,5 @@
 # Denian pdf Pro
 
-🇮🇩 **Bahasa Indonesia**
 Denian pdf Pro adalah aplikasi desktop kompresor PDF yang sangat cepat dan aman, dibangun menggunakan Python, CustomTkinter, dan TkinterDnD2. Aplikasi ini bertindak sebagai GUI wrapper untuk dua mesin kompresi terbaik di kelasnya: **QPDF** (untuk kompresi lossless/aman tanpa mengurangi kualitas) dan **Ghostscript** (untuk kompresi ekstrem hingga ukuran terkecil).
 
 **Fitur Utama:**
