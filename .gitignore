@@ -1,0 +1,8 @@
+# Build and distribution folders
+build/
+dist/
+Output/
+__pycache__/
+
+# PyInstaller files
+*.spec
