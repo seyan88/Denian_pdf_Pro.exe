@@ -31,3 +31,5 @@ Denian pdf Pro is a lightning-fast and secure PDF compressor desktop application
 2. Run `DenianPdfPro_Installer.exe` located in the `Output/` folder.
 3. Follow the Setup Wizard to completion.
 4. Launch the application via Start Menu or Desktop Shortcut.
+
+Catatan: Aplikasi ini akan dikembangkan lebih lanjut jika tidak malas.
