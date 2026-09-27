@@ -72,6 +72,39 @@ class DenianMediaProApp(ctk.CTk, TkinterDnD.DnDWrapper):
         self.file_queues = {t: [] for t in self.tabs_list}
         self.prev_status = "Status: Siap"
         self.current_tab_name = self.tabs_list[0]
+        
+        # Bilingual Support
+        self.lang_mode = "ID"
+        self.texts = {
+            "ID": {
+                "sub": "Kompresi Massal • Kualitas Optimal • Physical Interface",
+                "lvl": "Level Kompresi:", "fmt": "Format Output:",
+                "btn_start": "🚀 Mulai Proses", "btn_cancel": "🛑 Batal (Force)",
+                "stat_wait": "Status: Menunggu Instruksi", "stat_ready": "Status: Siap",
+                "lbl_out": "Folder Output:", "btn_out": "Pilih Folder...", "out_def": "(Mengikuti folder asal)",
+                "btn_donate": "☕ Traktir Kopi", "btn_lang": "🌐 ID",
+                "btn_file": "📄 Pilih File", "btn_folder": "📁 Pilih Folder (Batch)", "btn_clear": "🗑️ Bersihkan",
+                "pdf_modes": ["Aman (Tanpa Blur / Lossless)", "Ekstrem (Ukuran Terkecil)"],
+                "img_modes": ["Kualitas Tinggi", "Seimbang", "Ekstrem"],
+                "vid_modes": ["Kualitas Tinggi", "Seimbang", "Ekstrem"],
+                "placeholder": "Anda bisa drag and drop juga\nuntuk memasukkan file",
+                "list_in": "Daftar Input", "list_out": "Daftar Output (Selesai)"
+            },
+            "EN": {
+                "sub": "Mass Compression • Optimal Quality • Physical Interface",
+                "lvl": "Compression Level:", "fmt": "Output Format:",
+                "btn_start": "🚀 Start Process", "btn_cancel": "🛑 Cancel (Force)",
+                "stat_wait": "Status: Waiting for Instructions", "stat_ready": "Status: Ready",
+                "lbl_out": "Output Folder:", "btn_out": "Select Folder...", "out_def": "(Same as source folder)",
+                "btn_donate": "☕ Buy Coffee", "btn_lang": "🌐 EN",
+                "btn_file": "📄 Select File", "btn_folder": "📁 Select Folder (Batch)", "btn_clear": "🗑️ Clear Queue",
+                "pdf_modes": ["Safe (Lossless)", "Extreme (Smallest)"],
+                "img_modes": ["High Quality", "Balanced", "Extreme"],
+                "vid_modes": ["High Quality", "Balanced", "Extreme"],
+                "placeholder": "You can also drag and drop\nfiles here",
+                "list_in": "Input List", "list_out": "Output List (Done)"
+            }
+        }
 
         # Configs - Minimal Window Size Optimization
         self.title("Denian Media Pro")
@@ -152,9 +185,16 @@ class DenianMediaProApp(ctk.CTk, TkinterDnD.DnDWrapper):
         self.video_level_var = ctk.StringVar(value="Seimbang")
         self.video_ext_var = ctk.StringVar(value=".mp4")
 
-        self._build_tab_content(self.tab_frames["📄 PDF"], [("Level Kompresi:", self.pdf_mode_var, ["Aman (Tanpa Blur / Lossless)", "Ekstrem (Ukuran Terkecil)"])])
-        self._build_tab_content(self.tab_frames["🖼️ Foto"], [("Level Kompresi:", self.foto_level_var, ["Kualitas Tinggi", "Seimbang", "Ekstrem"]), ("Format Output:", self.foto_ext_var, [".webp", ".jpg", ".png"])])
-        self._build_tab_content(self.tab_frames["🎞️ Video"], [("Level Kompresi:", self.video_level_var, ["Kualitas Tinggi", "Seimbang", "Ekstrem"]), ("Format Output:", self.video_ext_var, [".mp4", ".mkv", ".webm"])])
+        pdf_refs = self._build_tab_content(self.tab_frames["📄 PDF"], [("Level Kompresi:", self.pdf_mode_var, ["Aman (Tanpa Blur / Lossless)", "Ekstrem (Ukuran Terkecil)"])])
+        self.lbl_pdf_mode, self.opt_pdf_mode = pdf_refs[0]
+        
+        foto_refs = self._build_tab_content(self.tab_frames["🖼️ Foto"], [("Level Kompresi:", self.foto_level_var, ["Kualitas Tinggi", "Seimbang", "Ekstrem"]), ("Format Output:", self.foto_ext_var, [".webp", ".jpg", ".png"])])
+        self.lbl_foto_mode, self.opt_foto_mode = foto_refs[0]
+        self.lbl_foto_ext, self.opt_foto_ext = foto_refs[1]
+        
+        vid_refs = self._build_tab_content(self.tab_frames["🎞️ Video"], [("Level Kompresi:", self.video_level_var, ["Kualitas Tinggi", "Seimbang", "Ekstrem"]), ("Format Output:", self.video_ext_var, [".mp4", ".mkv", ".webm"])])
+        self.lbl_video_mode, self.opt_video_mode = vid_refs[0]
+        self.lbl_video_ext, self.opt_video_ext = vid_refs[1]
 
     def _set_active_tab(self, tab_name):
         self.current_tab_name = tab_name
@@ -175,9 +215,14 @@ class DenianMediaProApp(ctk.CTk, TkinterDnD.DnDWrapper):
         wrapper = tk.Frame(parent, bg=self.PANEL_SUNKEN)
         wrapper.pack(expand=True)
         
+        refs = []
         for i, (label, var, values) in enumerate(options):
-            ctk.CTkLabel(wrapper, text=label, font=ctk.CTkFont(size=14, weight="bold")).grid(row=0, column=i*2, padx=(20, 10), pady=15, sticky="e")
-            ctk.CTkOptionMenu(wrapper, variable=var, values=values, font=ctk.CTkFont(size=13), fg_color=self.PANEL_RAISED, button_color=self.BORDER_RAISED, button_hover_color="#555555").grid(row=0, column=i*2+1, padx=(0, 20), pady=15, sticky="w")
+            lbl = ctk.CTkLabel(wrapper, text=label, font=ctk.CTkFont(size=14, weight="bold"))
+            lbl.grid(row=0, column=i*2, padx=(20, 10), pady=15, sticky="e")
+            opt = ctk.CTkOptionMenu(wrapper, variable=var, values=values, font=ctk.CTkFont(size=13), fg_color=self.PANEL_RAISED, button_color=self.BORDER_RAISED, button_hover_color="#555555")
+            opt.grid(row=0, column=i*2+1, padx=(0, 20), pady=15, sticky="w")
+            refs.append((lbl, opt))
+        return refs
 
     def _build_actions(self):
         self.action_frame = ctk.CTkFrame(self.main_container, fg_color=self.PANEL_RAISED, border_color=self.BORDER_RAISED, border_width=2, corner_radius=12)
@@ -205,8 +250,8 @@ class DenianMediaProApp(ctk.CTk, TkinterDnD.DnDWrapper):
         self.settings_frame.pack(side="bottom", fill="x", pady=(10, 0))
         
         self.settings_frame.grid_columnconfigure(4, weight=1)
-
-        ctk.CTkLabel(self.settings_frame, text="Folder Output:", font=ctk.CTkFont(weight="bold")).grid(row=0, column=0, padx=(20, 10), pady=15, sticky="w")
+        self.lbl_out_title = ctk.CTkLabel(self.settings_frame, text="Folder Output:", font=ctk.CTkFont(weight="bold"))
+        self.lbl_out_title.grid(row=0, column=0, padx=(20, 10), pady=15, sticky="w")
         
         self.out_btn = ctk.CTkButton(self.settings_frame, text="Pilih Folder...", command=self._browse_output_dir, width=120, fg_color="#444444", border_width=1, border_color="#555555", hover_color="#2B2B2B")
         self.out_btn.grid(row=0, column=1, padx=5, pady=15, sticky="w")
@@ -219,13 +264,61 @@ class DenianMediaProApp(ctk.CTk, TkinterDnD.DnDWrapper):
         self.info_icon.bind("<Enter>", self._on_info_enter)
         self.info_icon.bind("<Leave>", self._on_info_leave)
 
+        self.lang_btn = ctk.CTkButton(self.settings_frame, text="🌐 ID", width=60, fg_color="#333333", border_width=1, border_color="#555555", hover_color="#444444", command=self._toggle_language)
+        self.lang_btn.grid(row=0, column=4, padx=(0, 10), pady=15, sticky="e")
+
         self.donate_btn = ctk.CTkButton(
             self.settings_frame, text="☕ Traktir Kopi", width=120,
             fg_color="transparent", border_width=1, border_color="#FF9800",
             text_color="#FFB74D", hover_color="#4E342E",
             command=lambda: webbrowser.open("https://saweria.co/Denian00")
         )
-        self.donate_btn.grid(row=0, column=4, padx=20, pady=15, sticky="e")
+        self.donate_btn.grid(row=0, column=5, padx=20, pady=15, sticky="e")
+        
+    def _toggle_language(self):
+        self.lang_mode = "EN" if self.lang_mode == "ID" else "ID"
+        self._apply_language()
+
+    def _apply_language(self):
+        d = self.texts[self.lang_mode]
+        self.header_subtitle.configure(text=d["sub"])
+        
+        self.lbl_pdf_mode.configure(text=d["lvl"])
+        self.opt_pdf_mode.configure(values=d["pdf_modes"])
+        if self.pdf_mode_var.get() not in d["pdf_modes"]: self.pdf_mode_var.set(d["pdf_modes"][0])
+        
+        self.lbl_foto_mode.configure(text=d["lvl"])
+        self.lbl_foto_ext.configure(text=d["fmt"])
+        self.opt_foto_mode.configure(values=d["img_modes"])
+        if self.foto_level_var.get() not in d["img_modes"]: self.foto_level_var.set(d["img_modes"][1])
+        
+        self.lbl_video_mode.configure(text=d["lvl"])
+        self.lbl_video_ext.configure(text=d["fmt"])
+        self.opt_video_mode.configure(values=d["vid_modes"])
+        if self.video_level_var.get() not in d["vid_modes"]: self.video_level_var.set(d["vid_modes"][1])
+        
+        if not self.is_processing:
+            self.compress_btn.configure(text=d["btn_start"])
+            self.status_label.configure(text=d["stat_ready"])
+        self.cancel_btn.configure(text=d["btn_cancel"] if not self.is_cancelled else ("Dibatalkan" if self.lang_mode=="ID" else "Cancelled"))
+        
+        self.lbl_out_title.configure(text=d["lbl_out"])
+        self.out_btn.configure(text=d["btn_out"])
+        if self.out_lbl.cget("text") in ["(Mengikuti folder asal)", "(Same as source folder)"]:
+            self.out_lbl.configure(text=d["out_def"])
+        self.donate_btn.configure(text=d["btn_donate"])
+        self.lang_btn.configure(text=d["btn_lang"])
+        
+        self.btn_file.configure(text=d["btn_file"])
+        self.btn_folder.configure(text=d["btn_folder"])
+        self.btn_clear.configure(text=d["btn_clear"])
+        
+        for t in self.tabs_list:
+            if not self.file_queues[t]:
+                self.placeholders[t].configure(text=d["placeholder"])
+            # Update label on scrollable frame
+            self.list_frames[t]["in"].configure(label_text=f'{d["list_in"]} {t.split()[1]}')
+            self.list_frames[t]["out"].configure(label_text=f'{d["list_out"]} {t.split()[1]}')
 
     def _build_dropzone(self):
         self.input_frame = ctk.CTkFrame(self.main_container, corner_radius=15, border_width=3, border_color=self.BORDER_SUNKEN, fg_color=self.PANEL_SUNKEN)
@@ -698,7 +791,7 @@ class DenianMediaProApp(ctk.CTk, TkinterDnD.DnDWrapper):
         return False, f"Exit code error. {err}"
 
     def _run_pdf(self, input_path, output_path, mode):
-        if "Aman" in mode:
+        if "Aman" in mode or "Safe" in mode:
             exe = resource_path(os.path.join("assets", "qpdf.exe"))
             cmd = [exe, "--linearize", "--optimize-images", input_path, output_path]
         else:
@@ -710,16 +803,16 @@ class DenianMediaProApp(ctk.CTk, TkinterDnD.DnDWrapper):
         exe = resource_path(os.path.join("assets", "ffmpeg.exe"))
         cmd = [exe, "-y", "-i", input_path]
         if ext == ".webp":
-            if level == "Kualitas Tinggi": cmd.extend(["-c:v", "libwebp", "-q:v", "80"])
-            elif level == "Seimbang": cmd.extend(["-c:v", "libwebp", "-q:v", "50"])
+            if level in ["Kualitas Tinggi", "High Quality"]: cmd.extend(["-c:v", "libwebp", "-q:v", "80"])
+            elif level in ["Seimbang", "Balanced"]: cmd.extend(["-c:v", "libwebp", "-q:v", "50"])
             else: cmd.extend(["-c:v", "libwebp", "-q:v", "20", "-vf", r"scale='w=min(1280\,iw):h=-2'"])
         elif ext == ".jpg":
-            if level == "Kualitas Tinggi": cmd.extend(["-q:v", "2"])
-            elif level == "Seimbang": cmd.extend(["-q:v", "6"])
+            if level in ["Kualitas Tinggi", "High Quality"]: cmd.extend(["-q:v", "2"])
+            elif level in ["Seimbang", "Balanced"]: cmd.extend(["-q:v", "6"])
             else: cmd.extend(["-q:v", "12", "-vf", r"scale='w=min(1280\,iw):h=-2'"])
         else: # .png
             cmd.extend(["-compression_level", "9"])
-            if level == "Ekstrem": cmd.extend(["-vf", r"scale='w=min(1280\,iw):h=-2'"])
+            if level in ["Ekstrem", "Extreme"]: cmd.extend(["-vf", r"scale='w=min(1280\,iw):h=-2'"])
         cmd.append(output_path)
         return self._exec_cmd(cmd, output_path)
 
@@ -730,9 +823,9 @@ class DenianMediaProApp(ctk.CTk, TkinterDnD.DnDWrapper):
         if ext == ".webm": vcodec = "libvpx-vp9"
         cmd.extend(["-c:v", vcodec])
 
-        if level == "Kualitas Tinggi":
+        if level in ["Kualitas Tinggi", "High Quality"]:
             cmd.extend(["-crf", "23", "-preset", "medium" if ext != ".webm" else "good", "-c:a", "aac", "-b:a", "192k"])
-        elif level == "Seimbang":
+        elif level in ["Seimbang", "Balanced"]:
             cmd.extend(["-crf", "28", "-preset", "fast" if ext != ".webm" else "good", "-c:a", "aac", "-b:a", "128k"])
         else:
             cmd.extend(["-crf", "35", "-preset", "veryfast" if ext != ".webm" else "good", "-vf", r"scale='w=min(1280\,iw):h=-2'", "-c:a", "aac", "-b:a", "96k"])
